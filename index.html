@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>수학 탐구방</title>
+<style>
+:root {
+  color-scheme: light dark;
+  --page: light-dark(#f6f8f6, #111a1b);
+  --surface: light-dark(#ffffff, #1b2728);
+  --surface-2: light-dark(#eef4f1, #243333);
+  --surface-3: light-dark(#e4eee9, #2b3e3d);
+  --text: light-dark(#1a2b2a, #e9f3ef);
+  --muted: light-dark(#667875, #a5b8b2);
+  --line: light-dark(#dce6e1, #354947);
+  --green: light-dark(#197963, #65c8ac);
+  --green-dark: light-dark(#125b4c, #a4ead4);
+  --green-wash: light-dark(#e0f4ec, #1b4038);
+  --blue: light-dark(#4167b4, #9ab8ff);
+  --blue-wash: light-dark(#e8efff, #293653);
+  --purple: light-dark(#8059b2, #c7a8f2);
+  --purple-wash: light-dark(#f0e9fa, #3b2d4b);
+  --orange: light-dark(#b86d2a, #f1b779);
+  --orange-wash: light-dark(#fff0df, #4b3725);
+  --danger: light-dark(#af4d4d, #f09b9b);
+  --shadow: 0 12px 32px light-dark(#243c3110, #00000024);
+}
+* { box-sizing: border-box; }
+html { min-height: 100%; background: var(--page); }
+body { margin: 0; background: var(--page); color: var(--text); font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", sans-serif; line-height: 1.55; }
+button, input, textarea { font: inherit; }
+button { cursor: pointer; }
+button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid light-dark(#75bea9, #8ad8c0); outline-offset: 2px; }
+.app-root { min-height: 100vh; width: 100%; background: var(--page); border-radius: 0; }
+.topbar { height: 74px; border-bottom: 1px solid var(--line); background: var(--surface); display: flex; align-items: center; justify-content: space-between; padding: 0 clamp(18px, 4vw, 58px); position: sticky; top: 0; z-index: 20; }
+.brand { display: flex; align-items: center; gap: 11px; border: 0; background: transparent; color: var(--text); padding: 0; text-align: left; }
+.brand-mark { width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center; color: white; background: #197963; box-shadow: inset 0 -3px 0 #0d5b4a40; }
+.brand-name { font-size: 18px; font-weight: 850; letter-spacing: -.7px; line-height: 1.2; }
+.brand-sub { color: var(--muted); font-size: 11px; margin-top: 3px; }
+.top-actions { display: flex; align-items: center; gap: 10px; }
+.pill { display: inline-flex; align-items: center; gap: 7px; background: var(--green-wash); color: var(--green-dark); border-radius: 999px; padding: 7px 12px; font-size: 12px; font-weight: 750; }
+.avatar { width: 35px; height: 35px; display: grid; place-items: center; border-radius: 50%; background: var(--surface-3); color: var(--green); font-weight: 800; font-size: 13px; }
+.layout { max-width: 1340px; margin: 0 auto; padding: 26px clamp(16px, 3vw, 38px) 60px; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 28px; }
+.sidebar { display: flex; flex-direction: column; gap: 22px; }
+.side-group-label { font-size: 10px; color: var(--muted); font-weight: 850; letter-spacing: 1.3px; padding: 0 12px 9px; }
+.nav-list { display: grid; gap: 5px; }
+.nav-btn { min-height: 45px; padding: 10px 12px; display: flex; align-items: center; gap: 11px; border: 1px solid transparent; border-radius: 12px; background: transparent; color: var(--muted); text-align: left; font-size: 13px; font-weight: 700; }
+.nav-btn:hover { background: var(--surface-2); color: var(--text); }
+.nav-btn.active { color: var(--green-dark); background: var(--green-wash); border-color: light-dark(#c5e8db, #285448); }
+.nav-icon { width: 21px; display: inline-grid; place-items: center; font-size: 16px; }
+.side-note { border-radius: 16px; border: 1px solid var(--line); background: var(--surface); padding: 16px; }
+.side-note .note-icon { width: 34px; height: 34px; display:grid; place-items:center; border-radius:11px; background:var(--orange-wash); margin-bottom: 10px; font-size:17px; }
+.side-note h3 { font-size: 13px; margin: 0 0 5px; }
+.side-note p { font-size: 11px; color: var(--muted); margin: 0; }
+.side-mini { margin-top: auto; color: var(--muted); font-size: 11px; line-height: 1.8; padding: 0 12px; }
+.main { min-width: 0; }
+.eyebrow { color: var(--green); font-size: 11px; font-weight: 850; letter-spacing: 1.4px; text-transform: uppercase; }
+h1, h2, h3, p { margin-top: 0; }
+h1 { font-size: clamp(27px, 3vw, 37px); line-height: 1.2; letter-spacing: -1.4px; margin: 8px 0 10px; }
+h2 { font-size: 21px; letter-spacing: -.65px; margin: 0; }
+h3 { font-size: 15px; letter-spacing: -.2px; margin: 0; }
+.lead { max-width: 640px; color: var(--muted); font-size: 14px; line-height: 1.85; margin-bottom: 0; }
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) 230px; align-items: center; gap: 18px; border-radius: 24px; padding: clamp(23px, 3vw, 38px); background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); overflow: hidden; position: relative; }
+.hero:after { content: ""; position: absolute; width: 240px; height: 240px; border-radius: 50%; border: 1px solid light-dark(#cde7dd, #31564c); right: -87px; top: -115px; box-shadow: 0 0 0 25px light-dark(#e8f5ef70, #1b3b3280), 0 0 0 53px light-dark(#e8f5ef45, #1b3b324a); pointer-events:none; }
+.hero-copy { position: relative; z-index: 1; }
+.hero-quote { font-size: clamp(18px, 2vw, 24px); font-weight: 800; line-height: 1.5; letter-spacing: -.75px; margin: 0 0 8px; }
+.hero-quote span { color: var(--green); }
+.hero-actions { display:flex; flex-wrap: wrap; gap: 9px; margin-top: 20px; }
+.hero-art { position: relative; display: grid; place-items: center; min-height: 160px; z-index:1; }
+.orbit { width: 162px; height: 162px; border: 1px dashed light-dark(#b7d8cc, #4f796a); border-radius: 50%; display:grid; place-items:center; position:relative; }
+.orbit-core { width: 86px; height:86px; background:var(--green-wash); color:var(--green); border-radius:28px; display:grid; place-items:center; transform:rotate(-7deg); }
+.orbit-dot { position:absolute; width:39px; height:39px; border-radius:14px; display:grid; place-items:center; background:var(--surface); border:1px solid var(--line); box-shadow:var(--shadow); font-size:18px; }
+.orbit-dot.one { top: 4px; left: 25px; }.orbit-dot.two { right: -4px; top: 57px; }.orbit-dot.three { bottom: 1px; left: 48px; }.orbit-dot.four { left:-5px; bottom:43px; }
+.btn { border: 1px solid transparent; border-radius: 11px; padding: 10px 15px; font-size: 12px; font-weight: 800; display:inline-flex; gap:8px; align-items:center; justify-content:center; transition: transform .15s ease, background .15s ease; }
+.btn:hover { transform: translateY(-1px); }
+.btn-primary { background: #197963; color: #fff; box-shadow: 0 5px 12px #19796320; }
+.btn-primary:hover { background: #146854; }
+.btn-secondary { background: var(--surface); color: var(--text); border-color: var(--line); }
+.btn-secondary:hover { background: var(--surface-2); }
+.btn-soft { background: var(--green-wash); color: var(--green-dark); }
+.btn-sm { padding: 8px 11px; border-radius: 9px; font-size: 11px; }
+.btn:disabled { opacity: .48; cursor: not-allowed; transform:none; }
+.section-head { display:flex; justify-content:space-between; align-items:end; gap: 15px; margin: 30px 0 14px; }
+.section-sub { color:var(--muted); font-size:12px; margin:5px 0 0; }
+.link-btn { border:0; background:transparent; color:var(--green); font-weight:800; font-size:12px; padding: 6px 0; white-space:nowrap; }
+.domain-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+.domain-card { min-width:0; border:1px solid var(--line); background:var(--surface); border-radius:18px; padding:19px; transition:transform .18s ease, box-shadow .18s ease; }
+.domain-card:hover { transform:translateY(-2px); box-shadow:var(--shadow); }
+.card-top { display:flex; align-items:start; justify-content:space-between; gap:12px; margin-bottom:16px; }
+.domain-icon { height:47px; width:47px; border-radius:15px; display:grid; place-items:center; font-size:23px; flex:none; }
+.tone-algebra .domain-icon { background:var(--green-wash); }.tone-geometry .domain-icon { background:var(--blue-wash); }.tone-calculus .domain-icon { background:var(--purple-wash); }.tone-statistics .domain-icon { background:var(--orange-wash); }
+.domain-tag { color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:4px 8px; font-size:10px; font-weight:750; white-space:nowrap; }
+.domain-card h3 { font-size:17px; margin:0 0 5px; }
+.domain-card p { color:var(--muted); font-size:12px; line-height:1.7; margin:0; min-height:42px; }
+.card-divider { border-top:1px solid var(--line); margin:15px 0 12px; }
+.card-foot { display:flex; justify-content:space-between; align-items:center; gap:8px; }
+.topic-mini { color:var(--text); font-weight:750; font-size:11px; }
+.card-arrow { width:30px; height:30px; border-radius:10px; border:1px solid var(--line); color:var(--green); background:var(--surface); display:grid; place-items:center; }
+.how-strip { margin-top:23px; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border:1px solid var(--line); border-radius:17px; background:var(--surface); padding:14px 7px; }
+.how-step { display:flex; align-items:center; justify-content:center; gap:9px; padding:7px; border-right:1px solid var(--line); }.how-step:last-child { border-right:0; }
+.step-num { width:27px; height:27px; border-radius:9px; background:var(--surface-2); color:var(--green); display:grid; place-items:center; font-weight:850; font-size:11px; flex:none; }
+.how-step strong { display:block; font-size:11px; }.how-step small { display:block; color:var(--muted); font-size:10px; margin-top:2px; }
+.footer-note { color:var(--muted); font-size:10px; margin-top:19px; text-align:center; }
+/* Explorer */
+.breadcrumb { color:var(--muted); font-size:11px; font-weight:700; margin-bottom:16px; display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+.breadcrumb button { border:0; background:transparent; color:var(--green); font-weight:800; padding:0; }
+.explorer-head { display:flex; justify-content:space-between; gap:20px; align-items:start; margin-bottom:22px; }
+.explorer-title { display:flex; gap:13px; align-items:start; }
+.explorer-icon { width:50px; height:50px; border-radius:16px; display:grid; place-items:center; font-size:24px; flex:none; }
+.explorer-title h1 { margin:0 0 7px; font-size:29px; }
+.explorer-title p { color:var(--muted); font-size:13px; max-width:620px; margin:0; line-height:1.7; }
+.stage-progress { display:flex; align-items:center; gap:6px; color:var(--muted); font-size:10px; white-space:nowrap; padding-top:4px; }
+.progress-dots { display:flex; gap:4px; }.progress-dots i { display:block; height:6px; width:18px; background:var(--surface-3); border-radius:9px; }.progress-dots i.done { background:var(--green); }
+.stage-tabs { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; margin:0 0 16px; }
+.stage-tab { border:1px solid var(--line); background:var(--surface); color:var(--muted); padding:12px 13px; border-radius:13px; display:flex; align-items:center; gap:9px; text-align:left; }
+.stage-tab.active { background:var(--green-wash); border-color:light-dark(#b9e3d4,#2e6254); color:var(--green-dark); }
+.stage-tab .tab-number { width:25px; height:25px; border-radius:8px; background:var(--surface-2); display:grid; place-items:center; font-size:11px; font-weight:850; flex:none; }
+.stage-tab.active .tab-number { background:var(--green); color:white; }
+.stage-tab strong { display:block; font-size:12px; }.stage-tab small { display:block; font-size:10px; opacity:.8; margin-top:2px; }
+.explore-grid { display:grid; grid-template-columns:minmax(0,1.4fr) minmax(280px,.85fr); gap:16px; align-items:start; }
+.panel { min-width:0; background:var(--surface); border:1px solid var(--line); border-radius:18px; overflow:hidden; }
+.panel-head { padding:17px 19px 13px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; gap:12px; align-items:center; }
+.panel-head h2 { font-size:15px; }.panel-head p { color:var(--muted); font-size:11px; margin:4px 0 0; }
+.panel-body { padding:18px; }
+.lab-visual { background:var(--surface-2); border:1px solid var(--line); border-radius:15px; padding:16px; min-height:205px; display:flex; justify-content:center; align-items:center; overflow:hidden; }
+.lab-caption { display:flex; gap:9px; align-items:start; margin-top:14px; font-size:12px; line-height:1.75; color:var(--muted); }
+.caption-bullet { display:grid; place-items:center; flex:none; height:22px; width:22px; border-radius:8px; background:var(--green-wash); color:var(--green); font-weight:900; }
+.controls { display:grid; gap:14px; margin-top:17px; }
+.control-row { display:grid; grid-template-columns: minmax(85px, .8fr) minmax(0,1.6fr) auto; gap:12px; align-items:center; }
+.control-row label { color:var(--muted); font-weight:750; font-size:11px; }
+.control-row input[type="range"] { width:100%; accent-color:var(--green); }
+.control-value { min-width:45px; text-align:right; font-weight:850; font-size:12px; color:var(--green); font-variant-numeric:tabular-nums; }
+.metrics { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-top:14px; }
+.metric { border:1px solid var(--line); border-radius:12px; padding:11px; background:var(--surface); }
+.metric span { display:block; color:var(--muted); font-size:10px; margin-bottom:4px; }.metric strong { font-size:17px; letter-spacing:-.5px; font-variant-numeric:tabular-nums; }.metric small { display:block; color:var(--muted); font-size:9px; margin-top:1px; }
+.right-stack { display:grid; gap:14px; }
+.guide-card { border:1px solid var(--line); background:var(--surface); border-radius:18px; padding:18px; }
+.guide-title { display:flex; align-items:center; gap:9px; margin-bottom:10px; }.guide-icon { width:31px; height:31px; display:grid; place-items:center; border-radius:10px; background:var(--orange-wash); font-size:16px; }
+.guide-title h3 { font-size:14px; }
+.guide-label { color:var(--green); font-weight:850; font-size:10px; letter-spacing:.7px; margin:13px 0 6px; }
+.guide-prompt { font-size:14px; line-height:1.7; font-weight:800; letter-spacing:-.2px; margin:0; }
+.guide-helper { font-size:11px; color:var(--muted); margin:8px 0 0; line-height:1.75; }
+.input-label { display:block; font-size:11px; font-weight:800; margin:0 0 7px; }
+.textarea { width:100%; min-height:90px; resize:vertical; border:1px solid var(--line); background:var(--page); color:var(--text); border-radius:11px; padding:11px 12px; font-size:12px; line-height:1.7; }
+.textarea::placeholder { color:var(--muted); }
+.guide-actions { display:flex; flex-wrap:wrap; gap:7px; margin-top:9px; }
+.hint-box { border-radius:11px; padding:11px 12px; background:var(--orange-wash); color:var(--text); font-size:11px; line-height:1.7; margin-top:11px; }
+.feedback-box { border:1px solid light-dark(#bce7d8,#315d4e); background:var(--green-wash); color:var(--green-dark); border-radius:12px; padding:12px; font-size:11px; line-height:1.7; margin-top:12px; }
+.domain-note { margin-top:14px; border:1px dashed var(--line); border-radius:13px; padding:12px; color:var(--muted); font-size:10px; line-height:1.7; }
+.domain-note strong { color:var(--text); }
+/* Algebra visual */
+.square-visual { display:flex; flex-direction:column; align-items:center; gap:11px; width:100%; }
+.square-grid { display:grid; gap:4px; width:min(190px,70%); aspect-ratio:1; }
+.square-cell { border-radius:4px; background:light-dark(#a7d9c6,#337b67); min-width:0; min-height:0; border:1px solid light-dark(#6cba9f,#5cb498); }
+.square-cell:nth-child(3n) { background:light-dark(#5cad91,#246853); }
+.square-eq { font-size:14px; font-weight:850; color:var(--green-dark); text-align:center; }
+.sequence-row { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:5px; }.number-chip { padding:5px 8px; border-radius:7px; background:var(--surface); border:1px solid var(--line); font-size:11px; font-weight:800; }
+/* geometry visual */
+.geometry-svg { max-width:100%; width:370px; height:auto; overflow:visible; }
+.geometry-svg text { font-family:inherit; fill:var(--text); font-size:12px; font-weight:800; }
+/* calculus visual */
+.graph-svg { width:100%; max-width:440px; height:auto; }
+.graph-svg text { font-family:inherit; fill:var(--muted); font-size:10px; }
+/* stats visual */
+.stats-charts { width:100%; display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.chart-box { min-width:0; border:1px solid var(--line); background:var(--surface); border-radius:12px; padding:11px; }
+.chart-box h4 { font-size:11px; margin:0 0 5px; }.chart-box p { color:var(--muted); font-size:9px; margin:0 0 8px; }
+.mini-bars { height:96px; display:flex; align-items:end; gap:5px; border-bottom:1px solid var(--line); padding:0 3px; }
+.mini-bar { background:light-dark(#93cdb9,#3e987d); flex:1; min-width:8px; border-radius:4px 4px 0 0; position:relative; transition:height .2s ease; }
+.mini-bar span { position:absolute; top:-17px; left:50%; transform:translateX(-50%); color:var(--muted); font-size:8px; }
+.chart-summary { font-size:10px; margin-top:7px; color:var(--muted); }
+/* Other pages */
+.page-card { border:1px solid var(--line); border-radius:19px; background:var(--surface); padding:clamp(20px,3vw,30px); }
+.record-empty { padding:42px 20px; text-align:center; border:1px dashed var(--line); border-radius:16px; background:var(--page); }
+.record-empty .empty-icon { font-size:31px; margin-bottom:8px; }.record-empty p { color:var(--muted); font-size:12px; max-width:360px; margin:6px auto 15px; }
+.record-list { display:grid; gap:10px; margin-top:20px; }
+.record-item { border:1px solid var(--line); border-radius:13px; padding:15px; }.record-item-top { display:flex; justify-content:space-between; align-items:start; gap:12px; }.record-item h3 { margin:0 0 5px; }.record-item p { margin:0; color:var(--muted); font-size:12px; white-space:pre-wrap; }.record-pill { font-size:10px; color:var(--green-dark); background:var(--green-wash); padding:4px 8px; border-radius:999px; flex:none; }
+.teacher-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:20px; }
+.teacher-step { border:1px solid var(--line); border-radius:14px; padding:15px; background:var(--page); }.teacher-step .num { font-size:10px; font-weight:900; color:var(--green); letter-spacing:1px; margin-bottom:8px; }.teacher-step h3 { margin-bottom:6px; }.teacher-step p { margin:0; color:var(--muted); font-size:11px; line-height:1.75; }
+.callout { border-radius:14px; padding:16px; background:var(--green-wash); margin-top:19px; color:var(--green-dark); font-size:12px; line-height:1.8; }
+.toast { position:fixed; z-index:50; bottom:22px; left:50%; transform:translate(-50%,20px); opacity:0; pointer-events:none; background:light-dark(#203632,#e7f2ee); color:light-dark(#fff,#192b28); border-radius:12px; padding:11px 16px; box-shadow:var(--shadow); font-size:12px; font-weight:750; transition:all .2s ease; max-width:calc(100vw - 30px); text-align:center; }.toast.show { opacity:1; transform:translate(-50%,0); }
+.mobile-nav { display:none; }
+@media (max-width:1000px) { .layout { grid-template-columns:190px minmax(0,1fr); gap:19px; }.explore-grid { grid-template-columns:minmax(0,1fr); }.right-stack { grid-template-columns:repeat(2,minmax(0,1fr)); }.domain-note { grid-column:1/-1; } }
+@media (max-width:760px) { .topbar { height:64px; padding:0 16px; }.brand-mark { width:37px; height:37px; border-radius:12px; }.brand-name { font-size:16px; }.pill { font-size:10px; padding:6px 9px; }.layout { display:block; padding:17px 14px 92px; }.sidebar { display:none; }.mobile-nav { position:fixed; z-index:30; bottom:0; left:0; right:0; background:var(--surface); border-top:1px solid var(--line); display:grid; grid-template-columns:repeat(3,1fr); padding:7px 10px max(7px, env(safe-area-inset-bottom)); }.mobile-nav .nav-btn { display:flex; flex-direction:column; gap:3px; justify-content:center; text-align:center; padding:6px 3px; min-height:52px; font-size:10px; }.mobile-nav .nav-icon { font-size:17px; }.hero { grid-template-columns:1fr; padding:23px; }.hero-art { display:none; }.hero-quote { font-size:21px; }.domain-grid { gap:10px; }.domain-card { padding:14px; }.domain-card p { min-height:62px; }.card-top { margin-bottom:13px; }.domain-icon { width:41px; height:41px; border-radius:13px; font-size:20px; }.domain-card h3 { font-size:15px; }.domain-tag { font-size:9px; padding:4px 6px; }.how-strip { grid-template-columns:repeat(2,minmax(0,1fr)); gap:0; }.how-step { justify-content:flex-start; }.how-step:nth-child(2) { border-right:0; }.how-step:nth-child(-n+2) { border-bottom:1px solid var(--line); }.section-head { margin-top:24px; }.explorer-head { display:block; }.stage-progress { margin-top:15px; }.stage-tabs { gap:5px; }.stage-tab { padding:10px 7px; display:block; text-align:center; }.stage-tab .tab-number { margin:0 auto 6px; }.stage-tab strong { font-size:11px; }.stage-tab small { display:none; }.panel-head { padding:15px; }.panel-body { padding:14px; }.right-stack { grid-template-columns:1fr; }.teacher-grid { grid-template-columns:1fr; }.stats-charts { gap:7px; }.chart-box { padding:8px; }.metric { padding:9px; }.metric strong { font-size:15px; }.control-row { grid-template-columns:75px minmax(0,1fr) 44px; gap:8px; }.explorer-title h1 { font-size:25px; }.explorer-title p { font-size:12px; } }
+@media (max-width:390px) { .domain-grid { grid-template-columns:1fr; }.domain-card p { min-height:0; }.stage-tabs { grid-template-columns:repeat(4,minmax(0,1fr)); }.stage-tab strong { font-size:10px; }.metrics { gap:5px; }.metric strong { font-size:13px; } }
+</style>
+</head>
+<body>
+<div class="app-root" id="appRoot">
+  <header class="topbar">
+    <button class="brand" data-page="home" aria-label="수학 탐구방 홈으로">
+      <span class="brand-mark" aria-hidden="true"><svg width="25" height="25" viewBox="0 0 25 25" fill="none"><path d="M5 18.5 12.5 4 20 18.5H5Z" stroke="white" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12.5" cy="14.8" r="2.4" fill="#BDEDDD"/><path d="M7.5 18.5h10" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+      <span><span class="brand-name">수학 탐구방</span><span class="brand-sub">MATH EXPLORATION ROOM</span></span>
+    </button>
+    <div class="top-actions"><span class="pill"><span>✦</span> 발견하는 수학</span><span class="avatar" aria-label="탐구 학생">탐</span></div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" aria-label="주요 메뉴">
+      <div><div class="side-group-label">WORKSPACE</div><nav class="nav-list">
+        <button class="nav-btn active" data-page="home"><span class="nav-icon">⌂</span>탐구방 홈</button>
+        <button class="nav-btn" data-page="records"><span class="nav-icon">▤</span>나의 탐구 기록 <span id="recordCount" style="margin-left:auto;font-size:10px"></span></button>
+        <button class="nav-btn" data-page="teacher"><span class="nav-icon">♧</span>교사용 가이드</button>
+      </nav></div>
+      <div class="side-note"><div class="note-icon">💡</div><h3>정답보다 중요한 것</h3><p>왜 그런지 질문하고, 직접 시험하고, 나만의 말로 설명하는 과정이에요.</p></div>
+      <div class="side-mini">탐구는 한 번에 끝나지 않아도 괜찮아요.<br>추측을 바꾸는 것도 발견의 일부예요.</div>
+    </aside>
+    <main class="main" id="mainContent" tabindex="-1"></main>
+  </div>
+  <nav class="mobile-nav" aria-label="모바일 메뉴">
+    <button class="nav-btn active" data-page="home"><span class="nav-icon">⌂</span>탐구방</button>
+    <button class="nav-btn" data-page="records"><span class="nav-icon">▤</span>탐구 기록</button>
+    <button class="nav-btn" data-page="teacher"><span class="nav-icon">♧</span>교사용</button>
+  </nav>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+<script>
+(function(){
+  const topics = {
+    algebra:{id:'algebra',name:'대수',english:'ALGEBRA',icon:'∑',tone:'algebra',color:'#197963',title:'홀수의 합에는 어떤 규칙이 숨어 있을까?',desc:'연속된 홀수를 더하다 보면 어떤 규칙이 보일까요? 사례를 바꾸어 관찰하고, 스스로 규칙을 추측해 보세요.',chip:'규칙 발견과 일반화',
+      observe:'연속된 홀수를 차례로 더해 보세요. 합과 자연수의 제곱 사이에 어떤 관계가 있나요?',helper:'n을 바꾸어 사례를 비교해 보세요. 몇 가지 사례에서 발견한 규칙이 더 많은 경우에도 성립할지 생각해 봅시다.',hint:'처음부터 n번째까지의 홀수를 더해 보세요. 합을 1², 2², 3², … 과 비교하면 어떤 패턴이 보이나요?',
+      verify:'다른 자연수에서도 네 추측이 성립하나요?',justify:'왜 연속된 홀수 n개를 더하면 n²이 되는지, 그림이나 식을 이용해 설명해 보세요.',note:'사례를 통한 추측은 출발점이에요. 일반적인 성립을 보이려면 추측의 근거를 논리적으로 설명해야 해요.'},
+    geometry:{id:'geometry',name:'기하',english:'GEOMETRY',icon:'△',tone:'geometry',color:'#4167b4',title:'삼각형의 모양이 달라져도 변하지 않는 것은?',desc:'삼각형을 바꾸어도 그대로인 성질이 있을까요? 각의 크기를 움직이며 관계를 발견해 보세요.',chip:'시각적 통찰과 성질 발견',
+      observe:'삼각형의 두 각을 직접 바꾸어 보세요. 나머지 한 각은 어떻게 변하고, 세 각의 합은 어떻게 되나요?',helper:'삼각형 모양을 여러 가지로 바꿔 보세요. 눈에 보이는 규칙과 그 규칙이 항상 성립한다고 말할 근거를 구분해 보세요.',hint:'두 각을 키우면 나머지 각은 어떻게 되는지 살펴보세요. 여러 모양에서 세 각의 합을 비교해 보세요.',
+      verify:'삼각형의 모양이 바뀌어도 발견한 관계가 유지되나요?',justify:'관찰한 결과만으로 충분할까요? 삼각형의 세 내각의 합을 논리적으로 설명할 방법을 생각해 보세요.',note:'동적 시각화는 추측을 발견하는 데 도움을 줘요. 화면에서 항상 같은 것처럼 보여도 그 자체가 증명은 아니라는 점을 기억하세요.'},
+    calculus:{id:'calculus',name:'미적분',english:'CALCULUS',icon:'∫',tone:'calculus',color:'#8059b2',title:'평균변화율은 순간변화율에 어떻게 가까워질까?',desc:'곡선 위 두 점 사이의 간격을 줄이며 할선의 기울기와 접선의 기울기 사이의 관계를 탐구해 보세요.',chip:'변화와 극한 탐구',
+      observe:'h의 값을 줄여 보세요. 평균변화율이 어떻게 변하고, 어떤 값에 가까워지나요?',helper:'여기서는 f(x)=x², x=2인 지점을 살펴봅니다. 두 점 사이의 간격 h가 작아질 때를 관찰하세요.',hint:'f(x)=x²에서 x=2와 x=2+h 사이의 평균변화율을 계산해 보세요. h가 0에 가까워지면 어떤 일이 생기나요?',
+      verify:'h를 여러 값으로 바꾸어도 같은 경향이 나타나나요?',justify:'평균변화율의 극한이 왜 순간변화율이 되는지, 그래프와 식을 연결해 설명해 보세요.',note:'h가 0인 값을 대입하는 것과 h가 0에 한없이 가까워지는 과정을 구분해 보세요.'},
+    statistics:{id:'statistics',name:'통계',english:'STATISTICS',icon:'▥',tone:'statistics',color:'#b86d2a',title:'평균이 같으면 자료의 모습도 같을까?',desc:'평균이 같은 두 자료를 비교해 보세요. 대표값만으로 자료의 특징을 모두 설명할 수 있을까요?',chip:'자료 분석과 근거 있는 판단',
+      observe:'두 자료의 평균은 같지만 값들이 퍼져 있는 모습은 어떤가요? 대표값과 분포를 함께 살펴보세요.',helper:'평균과 중앙값뿐 아니라 최솟값·최댓값, 자료의 퍼짐도 관찰해 보세요. 어떤 자료가 더 다양하게 퍼져 있나요?',hint:'두 자료의 평균이 같더라도 각 값이 평균 근처에 모여 있는 정도는 다를 수 있어요. 막대그래프의 높이와 범위를 비교해 보세요.',
+      verify:'자료에 극단적인 값 하나를 넣으면 평균과 중앙값은 어떻게 달라지나요?',justify:'자료의 특성을 설명할 때 평균 하나만으로 충분하지 않은 이유를 자료에 근거해 설명해 보세요.',note:'통계에서는 계산 결과뿐 아니라 어떤 자료를 사용했는지, 자료가 어떻게 분포하는지도 중요해요.'}
+  };
+  const steps = [
+    {id:'observe',num:'01',title:'관찰하기',short:'변화 살펴보기',icon:'◎'},
+    {id:'guess',num:'02',title:'추측하기',short:'규칙 말해 보기',icon:'◇'},
+    {id:'verify',num:'03',title:'검증하기',short:'사례와 반례',icon:'⌕'},
+    {id:'justify',num:'04',title:'정당화하기',short:'이유 설명하기',icon:'✎'}
+  ];
+  let page='home', currentTopic='algebra', stage='observe', hintVisible=false, verifyDone=false;
+  let drafts={algebra:{guess:'',justify:''},geometry:{guess:'',justify:''},calculus:{guess:'',justify:''},statistics:{guess:'',justify:''}};
+  let savedRecords=[];
+  let geoA=55, geoB=65, hValue=1.0, nValue=4, outlier=false;
+  const $=id=>document.getElementById(id);
+  const main=$('mainContent');
+  function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function toast(msg){const el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.remove('show'),2400);}
+  function activeNav(){document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));$('recordCount').textContent=savedRecords.length?String(savedRecords.length):'';}
+  function goPage(p){page=p;activeNav();if(p==='home')renderHome();else if(p==='records')renderRecords();else renderTeacher();window.scrollTo({top:0,behavior:'smooth'});}
+  function openTopic(id){currentTopic=id;stage='observe';hintVisible=false;verifyDone=false;page='explore';activeNav();renderExplorer();window.scrollTo({top:0,behavior:'smooth'});}
+  function renderHome(){
+    main.innerHTML=`
+      <section class="hero"><div class="hero-copy"><div class="eyebrow">Think · Explore · Discover</div><p class="hero-quote">정답을 찾는 것을 넘어,<br><span>발견하는 수학</span>으로.</p><p class="lead">관찰하고, 추측하고, 직접 검증해 보세요. 수학 탐구방은 정답을 먼저 알려 주기보다 여러분의 생각이 한 걸음 더 나아가도록 돕는 탐구 공간이에요.</p><div class="hero-actions"><button class="btn btn-primary" data-action="start-random">오늘의 탐구 시작 <span aria-hidden="true">→</span></button><button class="btn btn-secondary" data-page="teacher">수업 활용 방법 보기</button></div></div><div class="hero-art" aria-hidden="true"><div class="orbit"><div class="orbit-core"><svg width="58" height="58" viewBox="0 0 58 58" fill="none"><path d="M9 44 29 8 49 44H9Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M17 44 29 23 41 44" stroke="currentColor" stroke-width="2" opacity=".55"/><circle cx="29" cy="35" r="5" fill="currentColor"/><path d="M20 48h18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div><span class="orbit-dot one">∑</span><span class="orbit-dot two">△</span><span class="orbit-dot three">∫</span><span class="orbit-dot four">▥</span></div></div></section>
+      <div class="section-head"><div><div class="eyebrow">Choose your question</div><h2 style="margin-top:5px">어떤 수학을 탐구해 볼까요?</h2><p class="section-sub">영역을 선택하면 직접 조작할 수 있는 탐구 활동이 열려요.</p></div><span class="pill">4개의 탐구실</span></div>
+      <section class="domain-grid" aria-label="탐구 영역">
+        ${domainCard('algebra','∑','대수','사례 속에서 규칙을 찾아 일반화해요.','연속된 홀수의 합')}
+        ${domainCard('geometry','△','기하','도형을 움직이며 성질과 관계를 발견해요.','삼각형의 내각의 합')}
+        ${domainCard('calculus','∫','미적분','변량을 바꾸며 변화율과 극한을 관찰해요.','평균변화율과 순간변화율')}
+        ${domainCard('statistics','▥','통계','자료의 분포를 비교하고 근거를 들어 판단해요.','평균과 자료의 퍼짐')}
+      </section>
+      <section class="how-strip" aria-label="탐구 네 단계"><div class="how-step"><span class="step-num">01</span><span><strong>관찰하기</strong><small>변화를 살펴봐요</small></span></div><div class="how-step"><span class="step-num">02</span><span><strong>추측하기</strong><small>규칙을 말해 봐요</small></span></div><div class="how-step"><span class="step-num">03</span><span><strong>검증하기</strong><small>다른 사례도 시험해요</small></span></div><div class="how-step"><span class="step-num">04</span><span><strong>정당화하기</strong><small>이유를 설명해요</small></span></div></section>
+      <p class="footer-note">탐구는 틀릴 수 있고, 추측은 바뀔 수 있어요. 그 과정도 수학의 일부입니다.</p>`;
+  }
+  function domainCard(id,icon,name,desc,topic){const t=topics[id];return `<article class="domain-card tone-${id}"><div class="card-top"><div class="domain-icon" aria-hidden="true">${icon}</div><span class="domain-tag">${t.chip}</span></div><h3>${name} 탐구실</h3><p>${desc}</p><div class="card-divider"></div><div class="card-foot"><span class="topic-mini">오늘의 질문 · ${topic}</span><button class="card-arrow" data-topic="${id}" aria-label="${name} 탐구 시작">↗</button></div></article>`;}
+  function stepTabs(){return `<div class="stage-tabs" role="tablist" aria-label="탐구 단계">${steps.map(s=>`<button class="stage-tab ${stage===s.id?'active':''}" data-stage="${s.id}" role="tab" aria-selected="${stage===s.id}"><span class="tab-number">${s.num}</span><span><strong>${s.title}</strong><small>${s.short}</small></span></button>`).join('')}</div>`;}
+  function renderExplorer(){
+    const t=topics[currentTopic], idx=steps.findIndex(s=>s.id===stage), done=steps.slice(0,idx).length;
+    main.innerHTML=`<div class="breadcrumb"><button data-page="home">탐구방 홈</button><span>›</span><span>${t.name} 탐구실</span></div>
+      <div class="explorer-head"><div class="explorer-title"><div class="explorer-icon tone-${currentTopic}" style="background:${currentTopic==='algebra'?'var(--green-wash)':currentTopic==='geometry'?'var(--blue-wash)':currentTopic==='calculus'?'var(--purple-wash)':'var(--orange-wash)'};color:${t.color}">${t.icon}</div><div><div class="eyebrow">${t.english} EXPLORATION</div><h1>${t.name} 탐구실</h1><p>${t.desc}</p></div></div><div class="stage-progress"><div class="progress-dots">${steps.map((s,i)=>`<i class="${i<=idx?'done':''}"></i>`).join('')}</div><span>${idx+1} / 4 단계</span></div></div>
+      ${stepTabs()}
+      <div class="explore-grid"><section class="panel"><div class="panel-head"><div><h2>${stage==='observe'?'직접 관찰해 보기':stage==='guess'?'나만의 추측 만들기':stage==='verify'?'추측을 시험해 보기':'내 생각을 설명하기'}</h2><p>${stage==='observe'?'아래 수학적 대상을 직접 조작해 보세요.':stage==='guess'?'완벽한 문장이 아니어도 괜찮아요. 떠오르는 생각을 적어 보세요.':stage==='verify'?'다른 사례에서도 성립하는지 직접 확인해 보세요.':'어떤 근거로 그렇게 생각했는지 정리해 보세요.'}</p></div><span class="domain-tag">${t.name}</span></div><div class="panel-body"><div class="lab-visual" id="labVisual">${renderLab()}</div><div class="lab-caption"><span class="caption-bullet">?</span><span>${stage==='observe'?t.observe:stage==='guess'?'관찰한 내용을 바탕으로 규칙을 한 문장으로 표현해 보세요.':stage==='verify'?t.verify:t.justify}</span></div><div id="labControls">${renderControls()}</div></div></section>
+      <div class="right-stack"><section class="guide-card"><div class="guide-title"><span class="guide-icon">🧭</span><h3>탐구 길잡이</h3></div><div class="guide-label">THINK ABOUT IT</div><p class="guide-prompt">${stage==='observe'?t.observe:stage==='guess'?'관찰한 사례들에서 공통으로 나타나는 규칙은 무엇인가요?':stage==='verify'?t.verify:t.justify}</p><p class="guide-helper">${t.helper}</p><div class="guide-actions"><button class="btn btn-secondary btn-sm" data-action="hint">${hintVisible?'힌트 숨기기':'생각의 힌트 보기'} <span>↗</span></button><button class="btn btn-soft btn-sm" data-action="next-stage">${idx===3?'기록 남기기':'다음 단계'} →</button></div>${hintVisible?`<div class="hint-box"><strong>작은 힌트</strong><br>${t.hint}</div>`:''}</section>
+      <section class="guide-card"><div class="guide-title"><span class="guide-icon" style="background:var(--green-wash)">✎</span><h3>${stage==='justify'?'나의 설명':stage==='guess'?'나의 추측':'탐구 메모'}</h3></div>${stage==='guess'?`<label class="input-label" for="thoughtInput">내가 발견한 규칙</label><textarea class="textarea" id="thoughtInput" placeholder="예: 처음 몇 가지 사례를 보니…">${esc(drafts[currentTopic].guess)}</textarea><div class="guide-actions"><button class="btn btn-primary btn-sm" data-action="save-guess">추측 저장하기</button></div>`:stage==='justify'?`<label class="input-label" for="thoughtInput">내가 생각한 이유와 근거</label><textarea class="textarea" id="thoughtInput" placeholder="어떤 근거로 내 추측을 설명할 수 있을까요?">${esc(drafts[currentTopic].justify)}</textarea><div class="guide-actions"><button class="btn btn-primary btn-sm" data-action="save-justify">설명 저장하기</button></div>`:`<p style="font-size:12px;line-height:1.8;color:var(--muted);margin:0">${stage==='observe'?'먼저 수학적 대상을 움직여 보세요. 눈에 띄는 점이 있다면 다음 단계에서 추측으로 남겨 보세요.':'탐구 중 발견한 내용과 질문을 메모로 남겨 보세요.'}</p><div class="guide-actions"><button class="btn btn-secondary btn-sm" data-action="quick-note">관찰 메모 쓰기</button></div>`}</section>
+      <div class="domain-note"><strong>탐구할 때 기억하기</strong><br>${t.note}</div></div></div>`;
+    bindTopicControls();
+  }
+  function renderControls(){
+    if(stage==='guess')return `<div class="feedback-box">추측은 임시적인 생각이에요. 다음 단계에서 새로운 사례를 통해 검토하고 필요하면 수정해도 괜찮아요.</div>`;
+    if(stage==='verify')return `<div class="controls"><button class="btn btn-primary" data-action="verify">${verifyDone?'✓ 검증 확인 완료':'다른 사례로 검증하기'}</button><div id="verifyFeedback">${verifyDone?verifyMessage():''}</div></div>`;
+    if(stage==='justify')return `<div class="feedback-box">정당화는 “항상 그런 것 같아요”를 넘어서, 왜 반드시 성립하는지 근거를 설명하는 단계예요.</div>`;
+    if(currentTopic==='algebra')return `<div class="controls"><div class="control-row"><label for="nSlider">더할 홀수 개수 n</label><input id="nSlider" type="range" min="1" max="8" value="${nValue}" step="1"><output class="control-value" id="nOut">${nValue}개</output></div><div class="metrics"><div class="metric"><span>마지막 홀수</span><strong id="lastOdd">${2*nValue-1}</strong></div><div class="metric"><span>홀수의 합</span><strong id="oddSum">${nValue*nValue}</strong></div><div class="metric"><span>n의 제곱</span><strong id="nSquare">${nValue*nValue}</strong></div></div></div>`;
+    if(currentTopic==='geometry')return `<div class="controls"><div class="control-row"><label for="angleASlider">각 A</label><input id="angleASlider" type="range" min="25" max="110" value="${geoA}" step="1"><output id="angleAOut" class="control-value">${geoA}°</output></div><div class="control-row"><label for="angleBSlider">각 B</label><input id="angleBSlider" type="range" min="25" max="110" value="${geoB}" step="1"><output id="angleBOut" class="control-value">${geoB}°</output></div><div class="metrics"><div class="metric"><span>각 A</span><strong id="metricA">${geoA}°</strong></div><div class="metric"><span>각 B</span><strong id="metricB">${geoB}°</strong></div><div class="metric"><span>각 C</span><strong id="metricC">${180-geoA-geoB}°</strong></div></div></div>`;
+    if(currentTopic==='calculus')return `<div class="controls"><div class="control-row"><label for="hSlider">두 점의 간격 h</label><input id="hSlider" type="range" min="0.1" max="2" value="${hValue}" step="0.1"><output id="hOut" class="control-value">${hValue.toFixed(1)}</output></div><div class="metrics"><div class="metric"><span>평균변화율</span><strong id="meanRate">${(4+hValue).toFixed(2)}</strong><small>할선의 기울기</small></div><div class="metric"><span>순간변화율</span><strong>4</strong><small>x = 2에서</small></div><div class="metric"><span>기울기 차이</span><strong id="rateGap">${hValue.toFixed(2)}</strong><small>h가 작아질수록?</small></div></div></div>`;
+    return `<div class="controls"><div class="control-row"><label for="outlierToggle">자료 A에 극단값 넣기</label><input id="outlierToggle" type="checkbox" ${outlier?'checked':''} style="justify-self:start;width:18px;height:18px;accent-color:var(--green)"><output id="outlierOut" class="control-value">${outlier?'추가됨':'없음'}</output></div><div class="metrics"><div class="metric"><span>자료 A 평균</span><strong id="meanA">${mean(statA())}</strong></div><div class="metric"><span>자료 B 평균</span><strong>${mean(statB())}</strong></div><div class="metric"><span>자료 A 중앙값</span><strong id="medianA">${median(statA())}</strong></div></div></div>`;
+  }
+  function renderLab(){
+    if(currentTopic==='algebra'){const n=nValue;return `<div class="square-visual"><div class="square-eq">1 + 3 + 5 + ··· + ${2*n-1} = ${n*n} ?</div><div class="square-grid" style="grid-template-columns:repeat(${n},1fr)">${Array.from({length:n*n},()=>'<span class="square-cell"></span>').join('')}</div><div class="sequence-row">${Array.from({length:n},(_,i)=>`<span class="number-chip">${2*i+1}</span>`).join('<span style="color:var(--muted)">+</span>')}<span style="font-weight:900">= ${n*n}</span></div><span style="font-size:10px;color:var(--muted)">정사각형을 이루는 작은 칸의 수를 세어 보세요.</span></div>`;}
+    if(currentTopic==='geometry')return geometrySVG();
+    if(currentTopic==='calculus')return calculusSVG();
+    return statsSVG();
+  }
+  function geometrySVG(){
+    const W=360,H=200,base=265,yBase=166,left=48;const A=geoA*Math.PI/180,B=geoB*Math.PI/180;const height=base/(1/Math.tan(A)+1/Math.tan(B));const xoff=height/Math.tan(A);const scale=0.54;const ax=left, bx=left+base, cx=left+xoff;const ay=yBase, by=yBase, cy=yBase-height*scale;const c=180-geoA-geoB;
+    const fmt=n=>Number(n).toFixed(1);const angleArc=(x,y,r,start,end)=>{const px1=x+r*Math.cos(start),py1=y-r*Math.sin(start),px2=x+r*Math.cos(end),py2=y-r*Math.sin(end);return `M ${fmt(px1)} ${fmt(py1)} A ${r} ${r} 0 0 0 ${fmt(px2)} ${fmt(py2)}`;};
+    const arcA=angleArc(ax,ay,27,0,A),arcB=angleArc(bx,by,27,Math.PI,Math.PI-B),arcC=angleArc(cx,cy,22,Math.PI+A,Math.PI-B);
+    return `<svg class="geometry-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="각을 조절할 수 있는 삼각형"><path d="M ${ax} ${ay} L ${bx} ${by} L ${cx} ${fmt(cy)} Z" fill="light-dark(#cfeee2,#285648)" fill-opacity=".55" stroke="var(--green)" stroke-width="2.2" stroke-linejoin="round"/><path d="${arcA}" stroke="#4167b4" stroke-width="2.5" fill="none"/><path d="${arcB}" stroke="#8059b2" stroke-width="2.5" fill="none"/><path d="${arcC}" stroke="#b86d2a" stroke-width="2.5" fill="none"/><circle cx="${ax}" cy="${ay}" r="3.3" fill="var(--green)"/><circle cx="${bx}" cy="${by}" r="3.3" fill="var(--green)"/><circle cx="${cx}" cy="${fmt(cy)}" r="3.3" fill="var(--green)"/><text x="${ax-9}" y="${ay+18}">A · ${geoA}°</text><text x="${bx-3}" y="${by+18}" text-anchor="end">B · ${geoB}°</text><text x="${cx}" y="${fmt(cy)-10}" text-anchor="middle">C · ${c}°</text><text x="180" y="194" text-anchor="middle" style="font-size:10px;fill:var(--muted)">각의 크기를 바꾸고 세 각의 합을 관찰하세요.</text></svg>`;
+  }
+  function calculusSVG(){
+    const W=420,H=220,L=32,R=14,T=15,B=26,xmax=4,ymax=16;const X=x=>L+(x/xmax)*(W-L-R),Y=y=>H-B-(y/ymax)*(H-T-B);let curve='';for(let i=0;i<=100;i++){const x=xmax*i/100;curve+=(i?' L ':'M ')+X(x).toFixed(2)+' '+Y(x*x).toFixed(2);}const x0=2,x1=2+hValue,y0=4,y1=x1*x1,slope=4+hValue;const tanStart=1,tanEnd=4;const tangentY=x=>4*x-4;let grid='';[0,4,8,12,16].forEach(y=>{grid+=`<line x1="${L}" y1="${Y(y)}" x2="${W-R}" y2="${Y(y)}" stroke="var(--line)" stroke-width="1"/><text x="${L-8}" y="${Y(y)+3}" text-anchor="end">${y}</text>`;});[0,1,2,3,4].forEach(x=>{grid+=`<line x1="${X(x)}" y1="${T}" x2="${X(x)}" y2="${H-B}" stroke="var(--line)" stroke-width="1"/><text x="${X(x)}" y="${H-8}" text-anchor="middle">${x}</text>`;});
+    return `<svg class="graph-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="이차함수 그래프와 할선, 접선"><g>${grid}</g><line x1="${L}" y1="${H-B}" x2="${W-R}" y2="${H-B}" stroke="var(--muted)"/><line x1="${L}" y1="${T}" x2="${L}" y2="${H-B}" stroke="var(--muted)"/><path d="${curve}" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"/><line x1="${X(tanStart)}" y1="${Y(tangentY(tanStart))}" x2="${X(tanEnd)}" y2="${Y(tangentY(tanEnd))}" stroke="#8059b2" stroke-width="2" stroke-dasharray="5 4"/><line x1="${X(x0)}" y1="${Y(y0)}" x2="${X(x1)}" y2="${Y(y1)}" stroke="#b86d2a" stroke-width="3"/><circle cx="${X(x0)}" cy="${Y(y0)}" r="4.5" fill="var(--green)"/><circle cx="${X(x1)}" cy="${Y(y1)}" r="4.5" fill="#b86d2a"/><text x="${Math.min(X(x1)+8, W-60)}" y="${Math.max(Y(y1)-9,22)}" style="fill:#b86d2a">할선</text><text x="${X(3.1)}" y="${Y(tangentY(3.1))-8}" style="fill:#8059b2">접선</text></svg>`;
+  }
+  function statA(){return outlier?[4,5,5,5,20]:[4,5,5,5,6];}function statB(){return [1,3,5,7,9];}
+  function mean(a){return (a.reduce((x,y)=>x+y,0)/a.length).toFixed(1).replace(/\.0$/,'');}function median(a){const s=[...a].sort((x,y)=>x-y);return String(s[Math.floor(s.length/2)]);}
+  function statsSVG(){const A=statA(),B=statB();const max=Math.max(...A,...B);return `<div class="stats-charts"><div class="chart-box"><h4>자료 A</h4><p>평균 근처에 모인 자료</p><div class="mini-bars">${A.map(v=>`<div class="mini-bar" style="height:${Math.max(8,v/max*78)}%"><span>${v}</span></div>`).join('')}</div><div class="chart-summary">평균 ${mean(A)} · 중앙값 ${median(A)}</div></div><div class="chart-box"><h4>자료 B</h4><p>값이 넓게 퍼진 자료</p><div class="mini-bars">${B.map(v=>`<div class="mini-bar" style="height:${Math.max(8,v/max*78)}%"><span>${v}</span></div>`).join('')}</div><div class="chart-summary">평균 ${mean(B)} · 중앙값 ${median(B)}</div></div></div>`;}
+  function bindTopicControls(){
+    const n=$('nSlider');if(n)n.addEventListener('input',()=>{nValue=Number(n.value);refreshVisual();});
+    const a=$('angleASlider'),b=$('angleBSlider');if(a)a.addEventListener('input',()=>{geoA=Number(a.value);if(geoA+geoB>155)geoB=155-geoA;refreshVisual();});if(b)b.addEventListener('input',()=>{geoB=Number(b.value);if(geoA+geoB>155)geoA=155-geoB;refreshVisual();});
+    const h=$('hSlider');if(h)h.addEventListener('input',()=>{hValue=Number(h.value);refreshVisual();});
+    const o=$('outlierToggle');if(o)o.addEventListener('change',()=>{outlier=o.checked;refreshVisual();});
+  }
+  function refreshVisual(){
+    if(page!=='explore')return;
+    const visual=$('labVisual'),controls=$('labControls');if(visual)visual.innerHTML=renderLab();if(controls)controls.innerHTML=renderControls();bindTopicControls();
+  }
+  function verifyMessage(){
+    if(currentTopic==='algebra')return '확인했어요. n=1부터 8까지 홀수의 합을 계산하면 각 경우에 n²과 일치해요. 이제 여러 사례에서 관찰한 규칙이 왜 일반적으로 성립하는지 설명해 보세요.';
+    if(currentTopic==='geometry')return `확인했어요. 현재 각은 ${geoA}°, ${geoB}°, ${180-geoA-geoB}°이고 합은 180°예요. 각을 여러 번 바꾸어도 합이 유지되는 이유를 논리적으로 설명해 보세요.`;
+    if(currentTopic==='calculus')return `확인했어요. h=${hValue.toFixed(1)}일 때 평균변화율은 ${(4+hValue).toFixed(2)}이고, h가 0에 가까워지면 순간변화율 4에 가까워져요. 극한의 의미를 말로 정리해 보세요.`;
+    return `확인했어요. 자료 A의 평균은 ${mean(statA())}, 자료 B의 평균은 ${mean(statB())}예요. 평균이 같거나 비슷해도 분포와 퍼짐이 다를 수 있는지 자료를 근거로 설명해 보세요.`;
+  }
+  function goStage(next){
+    if(next==='guess')drafts[currentTopic].guess=$('thoughtInput')?.value??drafts[currentTopic].guess;
+    if(next==='justify')drafts[currentTopic].justify=$('thoughtInput')?.value??drafts[currentTopic].justify;
+    stage=next;hintVisible=false;renderExplorer();
+  }
+  function saveField(which){const val=$('thoughtInput')?.value.trim()||'';drafts[currentTopic][which]=val;if(which==='guess')toast(val?'추측을 탐구 노트에 저장했어요.':'추측 칸이 비어 있어요. 떠오르는 생각을 적어 봐도 좋아요.');else toast(val?'설명을 저장했어요. 정답보다 근거가 중요해요.':'설명 칸이 비어 있어요. 관찰한 내용을 바탕으로 천천히 써 보세요.');}
+  function nextAction(){const idx=steps.findIndex(s=>s.id===stage);if(idx<3){goStage(steps[idx+1].id);}else saveRecord();}
+  function saveRecord(){const t=topics[currentTopic],item={id:Date.now(),topic:currentTopic,name:t.name,title:t.title,guess:drafts[currentTopic].guess,justify:drafts[currentTopic].justify,verified:verifyDone,when:new Date().toLocaleString('ko-KR',{dateStyle:'short',timeStyle:'short'})};savedRecords.unshift(item);toast('탐구 과정을 기록했어요!');goPage('records');}
+  function renderRecords(){
+    main.innerHTML=`<div class="eyebrow">MY EXPLORATION LOG</div><h1>나의 탐구 기록</h1><p class="lead" style="margin-bottom:24px">정답을 맞혔는지만 기록하는 곳이 아니에요. 어떤 추측을 했고, 어떻게 생각을 발전시켰는지 돌아보세요.</p><section class="page-card"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><div><h2>탐구 노트</h2><p class="section-sub">지금 이 시제품을 사용하는 동안 기록한 내용이에요.</p></div><span class="pill">${savedRecords.length}개 기록</span></div>${savedRecords.length?`<div class="record-list">${savedRecords.map(r=>`<article class="record-item"><div class="record-item-top"><div><h3>${esc(r.title)}</h3><p>${esc(r.when)} · ${esc(r.name)} 탐구실</p></div><span class="record-pill">${r.verified?'검증 활동 완료':'탐구 기록'}</span></div>${r.guess?`<p style="margin-top:12px"><strong style="color:var(--text)">나의 추측</strong><br>${esc(r.guess)}</p>`:''}${r.justify?`<p style="margin-top:10px"><strong style="color:var(--text)">나의 설명</strong><br>${esc(r.justify)}</p>`:''}<div style="margin-top:13px"><button class="btn btn-secondary btn-sm" data-topic="${r.topic}">이 주제 다시 탐구하기 ↗</button></div></article>`).join('')}</div><div style="margin-top:14px"><button class="btn btn-secondary btn-sm" data-action="clear-records">모든 기록 지우기</button></div>`:`<div class="record-empty" style="margin-top:20px"><div class="empty-icon">📒</div><h3>아직 남긴 탐구 기록이 없어요</h3><p>탐구실에서 관찰하고 추측을 기록한 뒤, ‘기록 남기기’를 눌러 첫 번째 노트를 만들어 보세요.</p><button class="btn btn-primary" data-page="home">탐구 주제 고르기 →</button></div>`}</section>`;
+  }
+  function renderTeacher(){main.innerHTML=`<div class="eyebrow">TEACHER GUIDE</div><h1>수업에서 이렇게 활용해 보세요</h1><p class="lead" style="margin-bottom:24px">수학 탐구방은 교사가 탐구 주제를 제시하고 학생의 생각을 지원하는 수업 보조 도구를 목표로 해요. 정답을 먼저 알려 주기보다 관찰과 설명을 이끌어 주세요.</p><section class="page-card"><div class="eyebrow">SUGGESTED CLASS FLOW</div><h2 style="margin-top:5px">한 차시 안의 탐구 흐름 예시</h2><div class="teacher-grid"><article class="teacher-step"><div class="num">01 · 3–5분</div><h3>질문 던지기</h3><p>탐구 주제를 제시하고 학생이 먼저 예측하게 합니다. 정답을 서둘러 알려 주지 않습니다.</p></article><article class="teacher-step"><div class="num">02 · 8–12분</div><h3>조작하고 발견하기</h3><p>학생이 값을 바꾸고 사례를 비교하면서 규칙이나 관계를 추측합니다. 관찰한 근거를 말하게 합니다.</p></article><article class="teacher-step"><div class="num">03 · 5–8분</div><h3>검증하고 설명하기</h3><p>다른 사례와 반례를 검토한 뒤, 왜 성립하는지 짝이나 모둠에서 논리적으로 설명합니다.</p></article></div><div class="callout"><strong>교사용 질문 예시</strong><br>• 어떤 점을 관찰했나요?<br>• 지금의 추측이 성립하지 않는 사례가 있을까요?<br>• 몇 가지 사례에서 성립하는 것과 항상 성립하는 것은 어떻게 다를까요?<br>• 그 관계가 성립한다고 생각한 이유를 다른 사람에게 설명해 볼 수 있나요?</div></section><section class="page-card" style="margin-top:16px"><div class="eyebrow">DESIGN PRINCIPLE</div><h2 style="margin-top:5px">도구는 사고를 대신하지 않아요</h2><p style="color:var(--muted);font-size:13px;line-height:1.9;margin:12px 0 0">시각화는 직관적 관찰과 추측을 지원하지만 그 자체가 증명은 아닙니다. 앱의 질문과 기록은 학생의 사고 과정을 드러내기 위한 보조 수단이며, 교사의 발문과 학생 간 토론을 대체하지 않습니다. 실제 수업에서는 학생 수준에 맞추어 예시와 질문의 난이도를 조절해 주세요.</p><div class="guide-actions" style="margin-top:18px"><button class="btn btn-primary" data-topic="geometry">기하 탐구 예시 열기 →</button><button class="btn btn-secondary" data-topic="calculus">미적분 탐구 예시 열기 →</button></div></section>`;}
+  document.addEventListener('click',e=>{
+    const pageBtn=e.target.closest('[data-page]');if(pageBtn){goPage(pageBtn.dataset.page);return;}
+    const topicBtn=e.target.closest('[data-topic]');if(topicBtn){openTopic(topicBtn.dataset.topic);return;}
+    const stageBtn=e.target.closest('[data-stage]');if(stageBtn){goStage(stageBtn.dataset.stage);return;}
+    const action=e.target.closest('[data-action]');if(!action)return;
+    switch(action.dataset.action){
+      case 'start-random':openTopic(['algebra','geometry','calculus','statistics'][Math.floor(Math.random()*4)]);break;
+      case 'hint':hintVisible=!hintVisible;renderExplorer();break;
+      case 'next-stage':nextAction();break;
+      case 'save-guess':saveField('guess');break;
+      case 'save-justify':saveField('justify');break;
+      case 'verify':verifyDone=true;renderExplorer();toast('새 사례를 확인했어요. 이제 이유를 설명해 보세요.');break;
+      case 'quick-note':goStage('guess');break;
+      case 'clear-records':if(confirm('저장된 탐구 기록을 모두 지울까요?')){savedRecords=[];activeNav();renderRecords();toast('탐구 기록을 지웠어요.');}break;
+    }
+  });
+  document.addEventListener('input',e=>{if(e.target.id==='thoughtInput'){if(stage==='guess')drafts[currentTopic].guess=e.target.value;if(stage==='justify')drafts[currentTopic].justify=e.target.value;}});
+  renderHome();activeNav();
+})();
+</script>
+</body>
+</html>
